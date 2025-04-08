@@ -1,0 +1,378 @@
+{
+  "header": {
+    "nav": {
+      "home": "Home",
+      "features": "Features",
+      "unifiedAI": "Unified AI",
+      "depin": "DePIN",
+      "rwa": "RWA",
+      "vision": "Our Vision",
+      "roadmap": "RoadMap",
+      "tokenomics": "Tokenomics",
+      "whitepaper": "Whitepaper",
+      "faqs": "FAQs"
+    },
+    "btn": "Connect",
+    "btnConnected": "Connected"
+  },
+  "tavtabs": {
+    "body": "Body",
+    "sports": "Sports",
+    "coaches": "Coaches",
+    "podcasts": "Podcasts",
+    "tutorials": "Tutorials",
+    "store": "Store"
+  },
+  "btns": {
+    "learn-more": "Learn More"
+  },
+  "home": {
+    "hero": {
+      "new": "NEW",
+      "integrationLive": "Next-Gen Integration is Live!",
+      "poweringFuture": "Earn 5% Daily with MineX VIP Staking Program",
+      "description": "Stake MINEX coins and experience secure, reliable, and consistent returns with our exclusive staking opportunity.",
+      "staking": "Staking",
+      "whitepaper": "Whitepaper"
+    },
+    "buyNowBox": {
+      "title": "Buy",
+      "now": "Now",
+      "untilPriceIncrease": "Until price increase",
+      "currentPrice": "Current price",
+      "nextPrice": "Next price",
+      "raised": "Raised",
+      "stackableVRN": "Stackable Mine X",
+      "purchasedVRN": "Purchased Mine X",
+      "listingPrice": "Listing price",
+      "chooseAmount": "Choose amount",
+      "vrnYouReceive": "$Mine X you receive",
+      "availableBonus": "Available Bonus",
+      "spendMore": "Spend",
+      "toGetBonus": "more to get 10% bonus tokens",
+      "buyNow": "Buy Now"
+      
+    },
+    "featuredIn": {
+      "title": "Featured In"
+    },
+    "ourFeatures": {
+      "title": "Our Features",
+      "description": "This is a project that fuses innovation with real-world value, offering security, transparency, and genuine growth in the ever-evolving crypto space.",
+      "aiTitle": "Why Stake?",
+      "aiDescription": "We offer a unique and secure staking option that allows you to purchase and stake our crypto coin. This not only helps grow your investment but also provides a consistent and stable source of profit.Through staking on our platform, you’ll receive daily earnings.Your investment is secured by real-world assets, backed by our mining operations. By staking your coins, you unlock the opportunity for passive income. Now is the time to Buy and Stake Mine X Coin and  secure your financial Freedom On Our Platform.",
+      "depinTitle": "The Physical Backbone",
+      "depinDescription": "Welcome to Our Revolutionary Crypto Project, This is not just another cryptocurrency. Our coin is a decentralized asset, underpinned by a real-world, income-generating Bitcoin and Ethereum mining operation.Operational Mining Infrastructure: We have a fully functional, state-of-the-art mining setup actively generating daily revenue through Bitcoin and Ethereum mining.Real, Tangible Profits: Unlike other speculative projects, our coin is backed by real-world assets and a sustainable income stream, ensuring long-term value. ",
+      "rwaTitle": "RWA – The Economic Engine",
+      "rwaDescription": "RWA tokenization bridges real-world assets with blockchain, allowing infrastructure such as real estate, data centers, and energy grids to be converted into fractional NFTs. Users can trade, stake, and borrow against these tokenized assets, earning passive income through AI-managed yield distribution while benefiting from global liquidity and decentralized ownership.",
+      "learn-more": "Learn More"
+    },
+    "buyNRTX": {
+      "title": "How to Buy Mine X Coin",
+      "description": "Buy Mine X Coin in three simple steps",
+      "steps": {
+        "step1": {
+          "step": "Step 01",
+          "title": "Create your Wallet",
+          "description": "If you already have a compatible wallet, proceed to Step 2. We recommend MetaMask for desktop and Trust Wallet for mobile. Download & set up your wallet to get started."
+        },
+        "step2": {
+          "step": "Step 02",
+          "title": "Top Up Your Wallet",
+          "description": "Fund your wallet with BNB, USDT  to purchase Mine X. If paying by Credit/debit card, you can skip this step."
+        },
+        "step3": {
+          "step": "Step 03",
+          "title": "Buy Mine X Coin",
+          "description": "Click 'Buy Now' and approve the transaction in your wallet. Once successful, your Mine X Coin will be automatically sent to your wallet."
+        }
+      }
+    },
+    "earnRewards": {
+      "title": {
+        "start": "Earn Rewards",
+        "end": "Passive Income Effortlessly"
+      },
+      "description": "Monitor your rewards in real-time and claim earnings when available.",
+      "cards": [
+        {
+          "title": "Buy Mine X Coin",
+          "description": "Connect your wallet and purchase Mine X to get started."
+         
+        },
+        {
+          "title": "Stake Mine X",
+          "description": "Go to the 'Staking' section on the platform. Choose a staking duration that fits your strategy. Longer staking = higher rewards & governance power.",
+          "buttonText": "Stake"
+        },
+        {
+          "title": "Earn Rewards",
+          "description": "Monitor your rewards in real-time and claim earnings when available. Rewards are distributed based on network contributions. Reinvest or withdraw as per platform rules."
+        }
+      ]
+    },
+    "rewardsCalculator": {
+      "title": {
+        "start": "Staking",
+        "end": "Rewards Calendar"
+      },
+      "description": "Calculate your potential rewards based on the staking duration.",
+      "cards": [
+        {
+          "title": "1 Day",
+          "apr": "APR: 5%"
+        },
+        {
+          "title": "7 Days",
+          "apr": "APR: 50%"
+        },
+        {
+          "title": "30 Days",
+          "apr": "APR: 210%"
+        },
+        {
+          "title": "90 Days",
+          "apr": "APR: 1000%"
+        }
+      ],
+      "buttonText": "Stake Now"
+    },
+    "roadMap": {
+      "subTitle": "Roadmap",
+      "title": "Building a Future-Driven Mining Ecosystem",
+      "description": "",
+      "phases": [
+        {
+          "quarter": "Q1 2025",
+          "title": "FOUNDATION"
+        },
+        {
+          "quarter": "Q2 2025",
+          "title": "LAUNCH"
+        },
+        {
+          "quarter": "Q3 2025",
+          "title": "EXPANSION"
+        },
+        {
+          "quarter": "Q4 2025",
+          "title": "UTILITY & INNOVATION"
+        }
+      ],
+      "items": {
+        "marketResearch": "Deployment of high-performance Bitcoin & Ethereum mining facility.",
+        "whitepaperRelease": "Advanced power, cooling & cybersecurity setup.",
+        "tokenomicsDesign": "Core team & operations fully activated",
+        
+
+        "aiComputeGridTestnet": "Official token launch",
+        "rwaTokenizationBeta": "Whitepaper release",
+        "depinNodeDeployment": "Staking system for early rewards",
+        "aiDaoPrototype": "Strategic pre-sale & community building",
+        "smartContractAudits": "Smart Contract Audits",
+        "testnetIncentiveProgram": "Testnet Incentive Program",
+
+        "mainnetDeployment": "Mining capacity expansion across facilities",
+        "rwaMarketplace": "Token listings on major crypto platforms",
+        "aiManagedStakingPools": "Partnerships with key blockchain players",
+        "energyTradingPlatform": "Energy Trading Platform",
+        "cexDexListings": "CEX/DEX Listings",
+        "ecosystemIncentives": "Ecosystem Incentives",
+
+        "aiModelMarketplace": "Launch of mobile app for staking & tracking",
+        "crossChainCompatibility": "Integration into NFTs, DeFi & real-world use cases",
+        "layer2Scaling": "Shift to renewable energy for long-term mining",
+        "enterpriseIntegrations": "Enterprise Integrations",
+        "rwaExpansion": "RWA Expansion",
+        "globalOutreach": "Global Outreach"
+      }
+    },
+    "tokenomics": {
+      "subTitle": "Tokenomics",
+      "title": {
+        "start": "Tokenomics:",
+        "end": "The Economy of TOKEN GAINERS"
+      },
+      "description": "The TOKEN GAINERS ($FIRA) ecosystem is designed for long-term sustainability, balancing utility, rewards, and governance. Below is the token distribution model ensuring growth, security, and decentralization.",
+      "liquidityAndExchangeListings": "Liquidity & Exchange Listings",
+      "infrastructureAndDevelopment": "Infrastructure & Development",
+      "teamAndAdvisors": "Team & Advisors",
+      "ecosystemAndRewards": "Ecosystem & Rewards",
+      "publicAndPrivateSales": "Public & Private Sales"
+    },
+    "builtOn": {
+      "title": "Built On",
+      "poweredBy": "Powered by",
+      "innovation": "Innovation, Built for the Future."
+    },
+    "faqs": {
+      "title": "FAQs",
+      "subtitle": "Frequently Asked Questions",
+      "question1": "What is TOKENGAINERS.COM?",
+      "answer1": "This is a project that fuses innovation with real-world value, offering security, transparency, and genuine growth in the ever-evolving crypto space.",
+      "question2": "How does TOKEN GAINERS utilize?",
+      "answer2": "We have a fully functional, state-of-the-art mining setup actively generating daily revenue through Bitcoin and Ethereum mining.Real, Tangible Profits: Unlike other speculative projects",
+      "question3": "What can I do with Mine X coin?",
+      "answer3": "We offer a unique and secure staking option that allows you to purchase and stake our crypto coin. This not only helps grow your investment but also provides a consistent and stable source of profit.",
+      "question4": "What is FIRA in TOKEN GAINERS?",
+      "answer4": "FIRA is Coint which officially launch on Exchange, a prominent global trading platform.Once listed on such a major exchange, we anticipate a significant increase in value, backed by a robust, real-world mining operation.",
+      "question5": "How Much Can Daily Earn With Mine X Staking?",
+      "answer5": "Earn 5% Daily with Mine X VIP Staking Program."
+    }
+  },
+  "aiUtility": {
+    "title": "Our Vision: Official Launch on Exchange",
+    "description": "AI in VORN.AI acts as the intelligent automation layer, optimizing infrastructure, transactions, and  security across the decentralized network. It ensures seamless operation, fraud prevention, yield  management, and real-time decision-making.",
+    "intelligentAutomation": {
+      "title": "Intelligent Automation for Efficient, Secure & Decentralized Operations",
+      "description": "VORN.AI enhances computing efficiency, automates smart contracts, predicts market trends, strengthens security against fraud, and optimizes governance to ensure seamless and trustless decentralized operations."
+    },
+    "services": {
+      "title": "Our Vision",
+      "subtitle": "Official Launch FIRA on Exchange"
+    },
+    "timeline": {
+      "first": {
+        "title": "Our goal is clear:",
+        "description": "to officially launch on Exchange, a prominent global trading platform.Once listed on such a major exchange, we anticipate a significant increase in value, backed by a robust, real-world mining operation."
+      },
+      "second": {
+        "title": "Real Business, Real Value:",
+        "description": "Your investment is not part of a speculative venture. It’s grounded in a tangible business with a fully operational, revenue-generating mining setup.The risk of loss is minimized as the project is underpinned by physical assets, providing a stable foundation."
+      },
+      "third": {
+        "title": "Early Adopter Advantage:",
+        "description": "As an early participant, you’re positioned to receive the highest returns, benefiting from the early-stage growth of this decentralized ecosystem."
+      },
+      "fourth": {
+        "title": "A Life-Changing Opportunity:",
+        "description": "This coin has the potential to transform your financial future, much like Bitcoin did for early adopters.Our vision is to empower you with a secure, transparent, and decentralized asset, offering long-term growth."
+      },
+      "fifth": {
+        "title": "Trust and Value:",
+        "description": "We consider your trust as our greatest achievement. Our commitment is to provide you with not just an investment, but a reliable pathway to financial Freedom. This project is not just another coin; it’s an opportunity to be part of a decentralized revolution, backed by real-world value and secure assets."
+      }
+    }
+  },
+  "staking": {
+    "totalVRNBalance": "Total $VRN Balance",
+    "stakingReward": "Staking Reward",
+    "referralEarnings": "Your Referral Earnings",
+    "stakingSection": {
+      "title": "Staking",
+      "totalStaking": "Total Staking",
+      "stakingPeriod": "Staking period",
+      "apr": "APR {{apr}}",
+      "placeholder": "Enter Staking value",
+      "max": "MAX",
+      "stakeNow": "STAKE NOW",
+      "stakeAmount": "Stake amount",
+      "estimatedProfit": "Estimated Profit",
+      "total": "Total",
+      "lcaiToBeLocked": "Mine X to be locked",
+      "duration": "Duration",
+      "unlockOn": "Unlock On"
+    },
+    "stakingHistory": {
+      "title": "STAKING HISTORY",
+      "stakedAmount": "STAKED AMOUNT",
+      "stakingPeriod": "LOCK DURATION",
+      "apr": "FIXED RETURN",
+      "startTime": "START TIME",
+      "endTime":"END TIME",
+      "status": "STATUS",
+      "action": "ACTION",
+      "unstake": "UNSTAKE",
+      "reStake": "RESTAKE",
+      "withdraw": "WITHDRAWN",
+      "withdrawing": "WITHDRAWING",
+      "active": "Active",
+      "completed": "Completed",
+      "no_stakes_found": "No staked found"
+    },
+    "referral": {
+      "title": "Referral",
+      "totalReferrals": "Total Referrals",
+      "totalEarnedAmount": "Total Earned Amount",
+      "yourReferralLink": "Your Referral Link:",
+      "copied": "Copied!"
+    },
+    "leaderboard": {
+      "title": "My Referrals",
+      "sr": "#",
+      "user": "User",
+      "amount": "$Mine X"
+    }
+  },
+  "depin": {
+    "title": "DePIN – The Backbone of VORN.AI",
+    "description": "DePIN in VORN.AI provides the physical resources for the ecosystem, such as computing nodes, storage devices, and energy grids, enabling users to monetize their infrastructure while powering decentralized operations.",
+    "poweringVORN": {
+      "title1": "Decentralized AI Compute Nodes",
+      "description1": "Share your computing power for AI tasks, with AI optimizing workloads. Earn VRN tokens based on your contribution.",
+      "title2": "Decentralized Cloud Storage:",
+      "description2": "Provide secure, decentralized storage with AI handling encryption and retrieval. Get rewarded in VRN tokens.",
+      "title3": "Decentralized Energy Grid",
+      "description3": "Tokenize and trade renewable energy while AI balances grid loads. Earn VRN tokens for contributing energy resources.",
+      "title4": "IoT & Smart Cities Integration:",
+      "description4": "AI processes real-time IoT data for smart applications like traffic and environment monitoring. Device operators earn VRN tokens."
+    }
+  },
+  "rwa": {
+    "title": "RWA – The Economic Engine of VORN.AI",
+    "description": "RWA tokenization in VORN.AI bridges the physical world with blockchain technology, allowing users to tokenize, trade, and earn from real-world assets.",
+    "rwaContent": {
+      "title": "Unlocking Real-World Assets for Everyone.",
+      "description": "RWA Core revolutionizes asset ownership by tokenizing infrastructure into blockchain assets, enabling fractional ownership for small-scale investors. With automated yield distribution providing passive income and a P2P marketplace for seamless global trading, RWA Core makes high-value assets accessible to all.",
+      "heading": {
+        "start": "Bridging Real-World Assets",
+        "end": "with Blockchain-Powered Utility."
+      },
+      "features": {
+        "title1": "RWA Tokenization Platform",
+        "description1": "This platform facilitates the conversion of real-world infrastructure into NFT-backed tokens, allowing asset owners to tokenize and fractionalize their assets for global investment and income generation.",
+        "title2": "RWA Marketplace",
+        "description2": "The RWA marketplace is a decentralized exchange for buying, selling, and trading tokenized assets like real estate and energy credits, with AI ensuring accurate valuations, fraud prevention, and instant liquidity.",
+        "title3": "RWA Staking Pools",
+        "description3": "RWA staking pools allow users to stake tokenized assets and earn yields generated from the underlying real-world assets, with AI managing yield distribution based on performance and market conditions.",
+        "title4": "RWA Collateralization & Lending",
+        "description4": "RWA collateralization and lending services provide liquidity by enabling users to lock their tokenized assets as collateral for loans, with AI assessing risk, managing interest rates, and ensuring secure transactions."
+      },
+      "buttonText": "Stake Now"
+    }
+  },
+  "footer": {
+    "description": "FIRA – Welcome to Our Revolutionary Crypto Project. Powering the Future of Decentralized Intelligence AI-Driven.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "unifiedAI": "Unified AI",
+      "depin": "DePIN",
+      "rwa": "RWA"
+    },
+    "company": {
+      "title": "Company",
+      "home": "Home",
+      "roadmap": "Roadmap",
+      "tokenomics": "Tokenomics",
+      "faqs": "FAQs"
+    },
+    "resources": {
+      "title": "Resources",
+      "staking": "Staking",
+      "whitepaper": "Whitepaper",
+      "cookiePolicy": "Cookie Policy"
+    },
+    "newsletter": {
+      "title": "Join our newsletter",
+      "subtitle": "Keep up to date with everything Refinance.",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    },
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms and Conditions",
+    "rights": "© 2025, TOKEN GAINERS. All rights reserved"
+  },
+  "btnText": "staking"
+  
+}
