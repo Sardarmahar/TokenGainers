@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Copy, DollarSign, Sun } from 'lucide-react'
 import Web3 from 'web3'
 import { useAccount, useReadContract } from 'wagmi'
-import presaleAbi from "../../components/contractABI/presaleAbi.json"
+import presaleAbi from "../../components/contractABI/tokenAbi.json"
 
 // load bloackchain
-const Provider = new Web3.providers.HttpProvider("https://bsc-dataseed.binance.org/")
+const Provider = new Web3.providers.HttpProvider("https://bsc-dataseed1.binance.org/")
 const web3 = new Web3(Provider)
 const ReferEarnPopup = () => {
-    const presaleAddress = "0x462eed0076dc1b2fe9deea0857df6d1953fe7d46"
+    const presaleAddress = "0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6"
     const {address, isConnected} = useAccount()
-    const [referralLink, setReferralLink] = useState("https://vorn.ai?referral")
+    const [referralLink, setReferralLink] = useState("https://tokengainers.com/en?referral")
     const [referralStats] = useState(
         {
             referrals: 0,
@@ -38,8 +38,18 @@ const ReferEarnPopup = () => {
             const protocol = window.location.protocol;
             const hostname = window.location.hostname;
             let url = protocol+hostname;
+        
             if(hostname==='localhost') url = protocol+hostname+':3000'
-            setReferralLink(url+'?referral='+address)
+            setReferralLink(url+'/en?referral='+address)
+        }
+        
+        if(getReferralsInfo){
+
+            referralStats.referrals = getReferralsInfo.length;
+        }
+
+        if(getTotalReferralEarnInfo){
+            referralStats.bonus = web3.utils.fromWei(getTotalReferralEarnInfo.toString(), "ether");
         }
       }, [isConnected, address, getTotalReferralEarnInfo, getReferralsInfo, referralStats])
     
@@ -72,7 +82,7 @@ const ReferEarnPopup = () => {
                         </div>
                         <div>
                             <h3 className="text-white text-sm font-medium">Total Referrals</h3>
-                            <p className="text-[#C176FF] text-sm">0</p>
+                            <p className="text-[#C176FF] text-sm">{referralStats.referrals}</p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +94,7 @@ const ReferEarnPopup = () => {
                         </div>
                         <div>
                             <h3 className="text-white text-sm font-medium">Total Earnings</h3>
-                            <p className="text-[#C176FF] text-sm">0 $Mine X</p>
+                            <p className="text-[#C176FF] text-sm">{referralStats.bonus} $Mine X</p>
                         </div>
                     </div>
                 </div>

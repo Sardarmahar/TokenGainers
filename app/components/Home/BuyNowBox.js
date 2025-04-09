@@ -14,23 +14,25 @@ import { ethers, parseUnits,   } from "ethers"
 import url from 'url';
 import { getClient } from "../../config/blockchain"
 import toast from "react-hot-toast"
+import $ from "jquery"
 import { formatUnits, parseEther } from "viem"
 
 import presaleAbi from "../contractABI/presaleAbi.json"
 import tokenAbi from "../contractABI/tokenAbi.json"
 
 // setup blockchain here 
-const Provider = new Web3.providers.HttpProvider("https://data-seed-prebsc-1-s1.bnbchain.org:8545");
+const Provider = new Web3.providers.HttpProvider("https://bsc-dataseed1.binance.org/");
 const web3 = new Web3(Provider);
 
 // This is for changing button logo and name tabs will change the chain(input) name and logo
 const tabs = [
-  { id: "BUY", label: "BUY", icon: "/assets/icons/coin.pngg" },
+  { id: "BUY", label: "BUY", icon: "/assets/icons/x.png" },
   { id: "SELL", label: "SELL", icon: "/assets/icons/usdt.svg" },
 ]
 
 const currenciesByChain = {
-  TG: [{ name: "TG", icon: "/assets/icons/coin.png" }],
+  TG: [{ name: "TG", icon: "/assets/icons/x.png" }],
+  FIRA: [{ name: "FIRA", icon: "/assets/icons/f.png" }],
   USDT: [{ name: "USDT", icon: "/assets/icons/usdt.svg" }],
 }
 
@@ -71,8 +73,8 @@ const BuyNowBox = () => {
 
   const { writeContractAsync } = useWriteContract();
 
-  const usdtAddress = "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd";
-  const tokenAddress = "0x351B1d2564793a8cbd9a616D5dC5C5c2aBBD9587";
+  const usdtAddress = "0x55d398326f99059fF775485246999027B3197955";
+  const tokenAddress = "0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6";
 
 
   // show user who connected all usdt in acc
@@ -105,29 +107,76 @@ const BuyNowBox = () => {
       address: tokenAddress,
       functionName: 'allowance',
       args: [address, tokenAddress],
+
     })
 
-  const switchBuyCurrency = async () =>{
+    
+  const switchTab = async (state) => {
+    setActiveTab(state);
     if(buyCurrency.name == "USDT"){
+      if(state){
        setBuyCurrency(currenciesByChain.TG[0])
        setSellCurrency(currenciesByChain.USDT[0])
        setBuyButtonText("SELL NOW");
+      }else{
+        setBuyCurrency(currenciesByChain.FIRA[0])
+        setSellCurrency(currenciesByChain.USDT[0])
+        setBuyButtonText("SELL NOW");
+      }
     }else{
+
+      if(state){
       setBuyCurrency(currenciesByChain.USDT[0])
       setSellCurrency(currenciesByChain.TG[0])
       setBuyButtonText("BUY NOW");
+      }else{
+        setBuyCurrency(currenciesByChain.USDT[0])
+        setSellCurrency(currenciesByChain.FIRA[0])
+        setBuyButtonText("BUY NOW");
+      }
+    }
+  
+  
+  }
+
+  const switchBuyCurrency = async () => {
+
+    if(buyCurrency.name == "USDT"){
+      if(activeTab){
+       setBuyCurrency(currenciesByChain.TG[0])
+       setSellCurrency(currenciesByChain.USDT[0])
+       setBuyButtonText("SELL NOW");
+      }else{
+        setBuyCurrency(currenciesByChain.FIRA[0])
+        setSellCurrency(currenciesByChain.USDT[0])
+        setBuyButtonText("SELL NOW");
+      }
+    }else{
+
+      if(activeTab){
+      setBuyCurrency(currenciesByChain.USDT[0])
+      setSellCurrency(currenciesByChain.TG[0])
+      setBuyButtonText("BUY NOW");
+      }else{
+        setBuyCurrency(currenciesByChain.USDT[0])
+        setSellCurrency(currenciesByChain.FIRA[0])
+        setBuyButtonText("BUY NOW");
+      }
     }
   }
 
   // use useref for buy amount input field 
   const inputRef = useRef(null);
   const updateBuyAmount = async () => {
-
+    
     if (!inputRef.current) return;
-
-    const amount = Number(inputRef.current.value)
+    
+    const amount = Number($("#inputbuyamount").val())
+    //console.log($("#inputbuyamount").val())
+       
     if (amount <= 0) return; 
 
+    
     // Connect to the public RPC provider
     const provider = new ethers.JsonRpcProvider('https://data-seed-prebsc-1-s1.bnbchain.org:8545');
     // Create a contract instance with the provider
@@ -140,14 +189,15 @@ const BuyNowBox = () => {
       if (buyCurrency.name === 'USDT') {
         
         console.log(web3.utils.toWei(amount.toString(), 'ether'))
-        const priceBigInt = await contract.usdtToToken(web3.utils.toWei(amount.toString(), 'ether'));
-        tokens = priceBigInt.toString(); // Convert BigInt to string
+        const usdtToToken = await contract.usdtToToken(web3.utils.toWei(amount.toString(), 'ether'));
+        tokens = usdtToToken.toString(); // Convert BigInt to string
       }
       //  Why converting mwei?? USDT (Tether) has 6 decimal places (while ETH has 18 decimal places)
       if (buyCurrency.name === "TG") {
-        const exchangeRate = await contract.exchangeRate();
-        //console.log(exchangeRate)
-        tokens = (web3.utils.toWei(amount.toString(), 'ether') * exchangeRate.toString()) / 1e18;
+        console.log(amount)
+        const tokenToUsdt = await contract.tokenToUsdt(web3.utils.toWei(amount.toString(), 'ether'));
+        
+        tokens = tokenToUsdt.toString();
         
       }
       
@@ -170,6 +220,7 @@ const BuyNowBox = () => {
             let tokenBal = await contract.balanceOf(address);
             const balance = web3.utils.fromWei(tokenBal.toString(), 'ether')
             setTokenBalance(Number(balance));
+            setStackableTokenBalance(Number(balance));
 
           } catch (error) {
             console.log('error')
@@ -189,7 +240,11 @@ const BuyNowBox = () => {
       return;
     }
     const publicClient = getClient();
-
+    const adr = window.location.href;
+    const q = url.parse(adr, true);
+    const qdata = q.query;
+    const referral = qdata.referral || "0x0000000000000000000000000000000000000000";
+   // console.log(referral)
   
     if (buyCurrency.name == 'USDT') {
       // If buy amount is more than available balance of user
@@ -223,7 +278,7 @@ const BuyNowBox = () => {
                 abi: tokenAbi.abi,
                 address: tokenAddress,
                 functionName: 'buy',
-                args:[parseUnits(String(buyAmount), 18)],
+                args:[parseUnits(String(buyAmount), 18),referral],
               });
           
               const txn = await getClient().waitForTransactionReceipt({ hash });
@@ -248,7 +303,7 @@ const BuyNowBox = () => {
             abi: tokenAbi.abi,
             address: tokenAddress,
             functionName: 'buy',
-            args:[parseUnits(String(buyAmount), 18)],
+            args:[parseUnits(String(buyAmount), 18), referral],
           });
       
           const txn = await getClient().waitForTransactionReceipt({ hash });
@@ -302,7 +357,7 @@ const BuyNowBox = () => {
             
                 const txn = await getClient().waitForTransactionReceipt({ hash });
                 if (txn.status === "success") {
-                  notifySuccess(`${expectedTokens} Coins Sold Successfully`);
+                  notifySuccess(`${buyAmount} Coins Sold Successfully`);
                 }
         
               } catch (error) {
@@ -322,7 +377,7 @@ const BuyNowBox = () => {
               abi: tokenAbi.abi,
               address: tokenAddress,
               functionName: 'buy',
-              args:[parseUnits(String(buyAmount), 18)],
+              args:[parseUnits(String(buyAmount), 18), referral],
             });
         
             const txn = await getClient().waitForTransactionReceipt({ hash });
@@ -450,7 +505,7 @@ const BuyNowBox = () => {
               className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5  border border-[#FFFFFF26]">
               <span className="text-[14px] sm:text-[16px] leading-[19.2px] font-normal">Buy Mine X</span>
             </button>
-            <button onClick={() => setActiveTab(false)} className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5"
+            <button onClick={() => switchTab(false)} className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5"
             
             >
               <span className="text-[14px] sm:text-[16px] leading-[19.2px] font-normal">Buy FIRA</span>
@@ -543,7 +598,7 @@ const BuyNowBox = () => {
               className={`${styles.stakingButtonBuyNow} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              
+              onClick={handleBuyToken}
           
             >
               <div className={styles.gradientBorder} />
@@ -652,7 +707,7 @@ const BuyNowBox = () => {
 
        {/* Tab ETH & BNB */}
        <div className="mt-5 mb-4 sm:my-5 border border-[#8616DF] rounded-md sm:rounded-[9px] p-[3.87px] sm:p-[5px] flex items-center justify-between">
-            <button onClick={() => setActiveTab(true)}   className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5">
+            <button onClick={() => switchTab(true)}   className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5">
               <span className="text-[14px] sm:text-[16px] leading-[19.2px] font-normal">Buy Mine X</span>
             </button>
             <button disabled className="h-[46px] sm:h-[50px] w-full rounded-md sm:rounded-lg flex items-center justify-center gap-2 sm:gap-2.5 border border-[#FFFFFF26]"
