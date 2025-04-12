@@ -258,7 +258,7 @@ const  shortNumberFormat  =  (labelValue) =>
     abi: stakingAbi.abi,
     address: stakeAddress,
     functionName: 'getUserStakes',
-    args:['0x91c9046276C72b169D11e1F02fB298552d347E02'],
+    args:[address],
   })
 
 
