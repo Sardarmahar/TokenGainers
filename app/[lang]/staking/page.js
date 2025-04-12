@@ -20,7 +20,7 @@ import Web3 from "web3"
 
 
 // setup blockchain here 
-const Provider = new Web3.providers.HttpProvider("https://rpc.ankr.com/eth");
+const Provider = new Web3.providers.HttpProvider("https://bsc-dataseed1.binance.org/");
 const web3 = new Web3(Provider);
 const Staking = () => {
   useLanguage();
@@ -28,9 +28,10 @@ const Staking = () => {
 
   // wallet open 
   const {isConnected, address} = useAccount()
-  const stakeAddress = "0x2bf950f5789c4859fcf89c9a84bbfc30c3e244c9";
-  const tokenAddress = "0x888632bb147ba407d85f1881a817c0481ff8dcda";
-  const presaleAddress = "0x462eed0076dc1b2fe9deea0857df6d1953fe7d46"
+
+  const stakeAddress = "0x34484dbe34aEc5fc50a7049919F00A7867f68d00";
+  const tokenAddress = "0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6";
+  
   const [stackableTokenBalance, setStackableTokenBalance] = useState(0)
   const [totalReward, setTotalReward] = useState(0);
   const [referralEarnings, setReferralEarnings] = useState(0)
@@ -49,12 +50,6 @@ const Staking = () => {
     args: [address],
   })
 
-  const { data: getTotalReferralEarnInfo } = useReadContract({
-    abi: presaleAbi.abi,
-    address: presaleAddress,
-    functionName: 'getTotalReferralEarnings',
-    args:[address],
-  })
 
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -75,10 +70,7 @@ const Staking = () => {
   useEffect(() => {
     if (isConnected) {
 
-      if(getTotalReferralEarnInfo){
-        console.log(getTotalReferralEarnInfo.toString())
-        setReferralEarnings(web3.utils.fromWei(getTotalReferralEarnInfo.toString(), "ether"));
-      }
+
         // all rewards user will get from staking
         if(userStakes){
           const total = userStakes.reduce((acc, stake) => {
@@ -95,7 +87,7 @@ const Staking = () => {
         setStackableTokenBalance(stackableBalance);
       }
     }
-  }, [isConnected, address, balanceTokenData, userStakes, getTotalReferralEarnInfo],)
+  }, [isConnected, address, balanceTokenData, userStakes],)
 
 
   return (

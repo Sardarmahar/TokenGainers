@@ -5,15 +5,17 @@ import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import Web3 from "web3";
+
 import tokenAbi from "../contractABI/tokenAbi";
 import stakingAbi from "../contractABI/stakingAbi";
+
 import { getClient } from "../../config/blockchain";
 import toast from "react-hot-toast";
 import { parseEther } from "viem";
 import $ from "jquery";
 
 // setup blockchain here 
-const Provider = new Web3.providers.HttpProvider("https://rpc.ankr.com/eth");
+const Provider = new Web3.providers.HttpProvider("https://bsc-dataseed1.binance.org/");
 const web3 = new Web3(Provider);
 let myStakes = [];
 const StakingSection = () => {
@@ -202,13 +204,16 @@ const StakingSection = () => {
     const { open } = useAppKit();
     const { address, isConnected } = useAccount();
     const {  writeContractAsync } = useWriteContract()
-    const stakeAddress = "0x2bf950f5789c4859fcf89c9a84bbfc30c3e244c9";
-    const tokenAddress = "0x888632bb147ba407d85f1881a817c0481ff8dcda";
+
+    const stakeAddress = "0x34484dbe34aEc5fc50a7049919F00A7867f68d00";
+    const tokenAddress = "0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6";
+    
     const [tokenBalance, setTokenBalance] = useState(0);
     const [allowance, setAllowance] = useState(0);
     const notifyErrorMsg = (msg) => toast.error(msg);
     const notifySuccess = (msg) => toast.success(msg);
     const [stakeButtonText, setStakeButtonText] = useState("Stake Now");
+    const [stakeButtonState, setStakeButtonState] = useState(false);
 
     // fetch all data from token and stake contract
   const {data: balanceTokenData} = useReadContract({
@@ -234,32 +239,32 @@ const StakingSection = () => {
   })
 
 
-      // Fetch 3 Month Reward Rate
+  // Fetch 1 Day Reward Rate
   const { data: rewardRate3MData } = useReadContract({
     abi: stakingAbi.abi,
     address: stakeAddress,
-    functionName: 'rewardRate3Months',
+    functionName: 'rewardRate1Days',
   })
   
-  // Fetch 6 Month Reward Rate
+  // Fetch 7 Days Reward Rate
   const { data: rewardRate6MData } = useReadContract({
     abi: stakingAbi.abi,
     address: stakeAddress,
-    functionName: 'rewardRate6Months',
+    functionName: 'rewardRate7Days',
   })
 
-  // Fetch 9 Month Reward Rate
+  // Fetch 1 Month Reward Rate
   const { data: rewardRate9MData } = useReadContract({
     abi: stakingAbi.abi,
     address: stakeAddress,
-    functionName: 'rewardRate9Months',
+    functionName: 'rewardRate30Days',
   })
 
-  // Fetch 12 Month Reward Rate
+  // Fetch 3 Month Reward Rate
   const { data: rewardRate12MData } = useReadContract({
     abi: stakingAbi.abi,
     address: stakeAddress,
-    functionName: 'rewardRate12Months',
+    functionName: 'rewardRate90Days',
   })
 
 async function handleStakeToken(){
@@ -267,7 +272,13 @@ async function handleStakeToken(){
   console.log("token:",staketokenamount)
   console.log(allowance)
   console.log(days)
-    if(numericStakeAmount >  tokenBalance) {
+  
+   if(staketokenamount <  3000) {
+      notifyErrorMsg("You Cannot stake  less than 3,000 Mine X") 
+      return;
+    }
+
+   if(numericStakeAmount >  tokenBalance) {
       notifyErrorMsg("Insufficient Token Balance") 
       return;
     }
@@ -285,7 +296,8 @@ async function handleStakeToken(){
 
     if(allowance < staketokenamount.toString()) {
       try{
-        setStakeButtonText("Approving...")
+        setStakeButtonText("Approving...");
+        setStakeButtonState(true);
 
         const hash = await writeContractAsync({
           abi: tokenAbi.abi,
@@ -301,17 +313,19 @@ async function handleStakeToken(){
         const hash = await writeContractAsync({
           abi: stakingAbi.abi,
           address: stakeAddress,
-          functionName: 'stakeVRN',
+          functionName: 'stake',
           args: [parseEther(staketokenamount.toString()), days*86400]
         })
         const txn2 = await publicClient.waitForTransactionReceipt( { hash } );
         if(txn2.status === "success") {
-          notifySuccess('Staked `'+stakeAmount+'` Mine x Successfully')
+          notifySuccess('Staked `'+stakeAmount+'` Mine X Successfully')
           setStakeButtonText("Stake Now")
+          setStakeButtonState(false)
         } else {
           notifyErrorMsg("Error in staking after approved")
           console.log("erre",error);
           setStakeButtonText("Stake Now")
+          setStakeButtonState(false)
         }
       }
     }
@@ -319,25 +333,29 @@ async function handleStakeToken(){
       notifyErrorMsg("Error in staking", error)
       console.log("erre",error);
       setStakeButtonText("Stake Now")
+      setStakeButtonState(false)
     }
   }
   else{
       try{
         setStakeButtonText("Staking...")
+        setStakeButtonState(true)
         const hash = await writeContractAsync({
           abi: stakingAbi.abi,
           address: stakeAddress,
-          functionName: 'stakeVRN',
+          functionName: 'stake',
           args: [parseEther(staketokenamount.toString()),days*86400]
         })
         const txn = await publicClient.waitForTransactionReceipt( { hash } );
         if(txn.status === "success") {
           notifySuccess('Staked `'+stakeAmount+'`Mine X Successfully')
           setStakeButtonText("Stake Now")
+          setStakeButtonState(false)
         }
       }catch(error){
         console.log("erre",error);
         setStakeButtonText("Stake ")
+        setStakeButtonState(false)
         if (error instanceof Error && "shortMessage" in error) {
           notifyErrorMsg(error.shortMessage);
         } else {
@@ -420,7 +438,7 @@ async function handleStakeToken(){
           const hash = await  writeContractAsync({ 
             abi: stakingAbi.abi,
             address: stakeAddress,
-            functionName: 'stakeVRN',
+            functionName: 'stake',
             args:[amount.toString(), Number(lockDuration) * 86400],
           })
 
@@ -453,7 +471,7 @@ async function handleStakeToken(){
       const hash = await  writeContractAsync({ 
         abi: stakingAbi.abi,
         address: stakeAddress,
-        functionName: 'stakeVRN',
+        functionName: 'stake',
         args:[amount.toString(), Number(lockDuration) * 86400],
       })
 
@@ -511,7 +529,6 @@ async function handleStakeToken(){
     if  (allowanceData){
       setAllowance(web3.utils.fromWei(allowanceData.toString(), 'ether'));
     }
-
 
       if(Array.isArray(stakeData)){
         myStakes = stakeData;
@@ -637,6 +654,7 @@ async function handleStakeToken(){
             isConnected ?(
               <button
               onClick={()=>  handleStakeToken()}
+              disabled = { stakeButtonState }
                 className={`${styles.stakingButtonNow} ${isHovered ? styles.hovered : ""
                   }`}
                 onMouseEnter={() => setIsHovered(true)}
