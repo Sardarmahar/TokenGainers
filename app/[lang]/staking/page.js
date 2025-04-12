@@ -51,6 +51,30 @@ const Staking = () => {
   })
 
 
+  
+const  shortNumberFormat  =  (labelValue) => 
+  {
+    // Twelve Zeroes for Trillions
+    return Math.abs(Number(labelValue)) >= 1.0e+12
+    ?  { value: (Math.abs(Number(labelValue)) / 1.0e+12).toFixed(2), symbol:  "T" }
+    
+    // Nine Zeroes for Billions
+    :Math.abs(Number(labelValue)) >= 1.0e+9
+
+    ? { value: (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2), symbol: "B" }
+    // Six Zeroes for Millions 
+    : Math.abs(Number(labelValue)) >= 1.0e+6
+
+    ? { value:  (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2), symbol: "M" }
+    // Three Zeroes for Thousands
+    : Math.abs(Number(labelValue)) >= 1.0e+3
+
+    ? { value: (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2), symbol: "K" }
+
+    : { value: Math.abs(Number(labelValue)).toFixed(2), symbol:'' };
+ };
+
+
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -100,22 +124,24 @@ const Staking = () => {
         >
           {/* Total $VRN Balance & Staking Reward & Your Referral Earnings */}
           <div className="w-full flex items-center gap-[20px] justify-between lg:flex-row flex-col">
-            <div style={{width: '50%'}} className="w-full relative px-[15px] sm:px-5 py-[12px] lg:py-[12px] flex lg:flex-col flex-row lg:items-start items-center justify-between rounded-[10px] lg:rounded-[12px] shadow-custom">
+            <div  className="w-full relative px-[15px] sm:px-5 py-[12px] lg:py-[12px] flex lg:flex-col flex-row lg:items-start items-center justify-between rounded-[10px] lg:rounded-[12px] shadow-custom">
               <h3 className="text-white text-[18px] leading-[24px] font-normal">
-                Total Mine X Balance
+              Current  Balance
               </h3>
               <h2 className="text-white text-[24px] leading-[38.4px] font-normal">
-                {stackableTokenBalance}
+                {stackableTokenBalance > 0
+                  ? `${ shortNumberFormat(formatNumberWithCommas(parseFloat(stackableTokenBalance).toFixed(0))).value + shortNumberFormat(formatNumberWithCommas(parseFloat(stackableTokenBalance).toFixed(0))).symbol} Mine X`
+                  : "0 Mine X"}
               </h2>
             </div>
-            <div style={{width: '50%'}} className="w-full relative px-[15px] sm:px-5 py-[12px] lg:py-[12px] flex lg:flex-col flex-row lg:items-start items-center justify-between rounded-[10px] lg:rounded-[12px] shadow-custom">
+            <div className="w-full relative px-[15px] sm:px-5 py-[12px] lg:py-[12px] flex lg:flex-col flex-row lg:items-start items-center justify-between rounded-[10px] lg:rounded-[12px] shadow-custom">
               <h3 className="text-white text-[18px] leading-[24px] font-normal">
                 {t("staking.stakingReward")}
               </h3>
               <h2 className="text-white text-[24px] leading-[38.4px] font-normal">
               {totalReward > 0
-                  ? `${formatNumberWithCommas(totalReward.toFixed(2))} Mine X`
-                  : "0.00 Mine X"}
+                  ? `${shortNumberFormat(formatNumberWithCommas(parseFloat(totalReward).toFixed(0))).value + shortNumberFormat(formatNumberWithCommas(parseFloat(totalReward).toFixed(0))).symbol} Mine X`
+                  : "0 Mine X"}
                 
               </h2>
             </div>

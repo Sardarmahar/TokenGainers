@@ -33,6 +33,29 @@ const StakingSection = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+const  shortNumberFormat  =  (labelValue) => 
+    {
+      // Twelve Zeroes for Trillions
+      return Math.abs(Number(labelValue)) >= 1.0e+12
+      ?  { value: (Math.abs(Number(labelValue)) / 1.0e+12).toFixed(2), symbol:  "T" }
+      
+      // Nine Zeroes for Billions
+      :Math.abs(Number(labelValue)) >= 1.0e+9
+  
+      ? { value: (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2), symbol: "B" }
+      // Six Zeroes for Millions 
+      : Math.abs(Number(labelValue)) >= 1.0e+6
+  
+      ? { value:  (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2), symbol: "M" }
+      // Three Zeroes for Thousands
+      : Math.abs(Number(labelValue)) >= 1.0e+3
+  
+      ? { value: (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2), symbol: "K" }
+  
+      : { value: Math.abs(Number(labelValue)).toFixed(2), symbol:'' };
+   };
+
+
   const monthDiff = (rate) => {
     var months = '1 Days';
     if(rate == 50){
@@ -235,7 +258,7 @@ const StakingSection = () => {
     abi: stakingAbi.abi,
     address: stakeAddress,
     functionName: 'getUserStakes',
-    args:[address],
+    args:['0x91c9046276C72b169D11e1F02fB298552d347E02'],
   })
 
 
@@ -552,7 +575,7 @@ async function handleStakeToken(){
           {t("staking.stakingSection.totalStaking")}
         </h2>
         <h3 className="text-white text-[22px] leading-[24px] font-normal">
-        {myStakeAmount.toLocaleString()}
+        { shortNumberFormat( myStakeAmount.toLocaleString()).value+shortNumberFormat(myStakeAmount.toLocaleString()).symbol}
         </h3>
       </div>
 
@@ -758,7 +781,7 @@ async function handleStakeToken(){
                         myStakes.map((item, index) => (
                           <tr key={index} className="border-b border-[#1e1e1e]">
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
-                              {(ethers.formatUnits(item.amount.toString(),'ether'))} Mine X
+                              {shortNumberFormat(ethers.formatUnits(item.amount.toString(),'ether')).value + shortNumberFormat(ethers.formatUnits(item.amount.toString(),'ether')).symbol} Mine X
                             </td>
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
                               {monthDiff(item.rewardRate)}

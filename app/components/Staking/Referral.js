@@ -54,7 +54,7 @@ const Referral = () => {
           const hostname = window.location.hostname;
           let url = protocol+hostname;
           if(hostname==='localhost') url = protocol+hostname+':3000'
-          setReferralLink(url+'?referral='+address)
+          setReferralLink(url+'/en?referral='+address)
       }
       if(getReferralsInfo){
 
@@ -83,19 +83,16 @@ const Referral = () => {
 
       <div className="mt-[15px] staking-section border-[#440675] border bg-[#1C0035] flex lg:flex-col flex-row lg:items-start items-center justify-between pb-2.5 pt-[14px] px-5 rounded-xl">
         <h2 className="text-[18px] leading-[24px] font-normal mb-[2px]">
-          {t("staking.referral.totalEarnedAmount")}
+          Total Earned
         </h2>
-        <h3 className="text-[26px] font-normal">{referralStats.bonus} $Mine X</h3>
+        <h3 className="text-[26px] font-normal">{referralStats.bonus} </h3>
       </div>
 
       {/* Referral Link Section */}
-      <div className="mt-[15px] border border-[#7209C5] rounded-xl p-[15px] lg:py-3 lg:px-5 flex items-start md:items-center md:flex-row flex-col gap-2.5 md:gap-5">
-        <h2 className="text-sm sm:text-lg font-normal font-poppins">
-          {t("staking.referral.yourReferralLink")}
-          <Link href={referralLink} className="ml-1" target="_blank">
-            {referralLink}
-          </Link>
-        </h2>
+      <p className="text-[#e0e01f] text-sm mt-[15px]">Copy & Share Your Referral Link</p>
+
+      <div className="mt-[15px] border border-[#7209C5] rounded-xl p-[15px] lg:py-3 lg:px-5 flex items-start md:items-center md:flex-row gap-2.5 md:gap-5">
+          <span className="text-[#fff] text-sm truncate">{referralLink.substring(0,35)}</span>              
         <button onClick={handleCopy} className="relative">
           <Image
             src="/assets/icons/copy.svg"
