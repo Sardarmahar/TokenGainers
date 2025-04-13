@@ -802,9 +802,10 @@ async function handleStakeToken(){
                             { getDateString(Number(item.endTime))}                           
                             </td>
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
+                             {item.withdrawn === false?
                               <span
                                 className={`px-3 py-1 rounded-full ${
-                                  Number(item.startTime) >= Number(item.endTime)
+                                  currentDateStamp >= item.endTime
                                     ? "bg-green-500/10 text-green-500"
                                     : "bg-yellow-500/10 text-yellow-500"
                                 }`}
@@ -813,6 +814,11 @@ async function handleStakeToken(){
                                   ? "Unlocked"
                                   : "Locked"  }
                               </span>
+                              :
+                              <span  className="px-3 py-1 rounded-full bg-red-500/10 text-white-500">
+                                Withdrawn
+                              </span>
+                              }
                             </td>
                             <td className="text-white whitespace-nowrap text-[0.875rem] px-[30px] py-[20px]">
                               {item.withdrawn === false?
@@ -835,7 +841,7 @@ async function handleStakeToken(){
                                   : "Withdraw" }
                               </button>
                               :
-                              <>Withdrawn</>}
+                              <></>}
                             </td>
                           </tr>
                         ))
