@@ -35,13 +35,7 @@ const Staking = () => {
   const [stackableTokenBalance, setStackableTokenBalance] = useState(0)
   const [totalReward, setTotalReward] = useState(0);
   const [referralEarnings, setReferralEarnings] = useState(0)
-    // showing how much user who connected will claim data
-  // const { data: totalAmountInfo } = useReadContract({
-  //   abi: presaleAbi.abi,
-  //   address: presaleAddress,
-  //   functionName: 'userClaimData',
-  //   args: [address],
-  // })
+    
   // show user who connected all token in acc
   const { data: balanceTokenData } = useReadContract({
     abi: tokenAbi.abi,
@@ -49,8 +43,6 @@ const Staking = () => {
     functionName: 'balanceOf',
     args: [address],
   })
-
-
   
 const  shortNumberFormat  =  (labelValue) => 
   {
@@ -130,7 +122,7 @@ const  shortNumberFormat  =  (labelValue) =>
               </h3>
               <h2 className="text-white text-[24px] leading-[38.4px] font-normal">
                 {stackableTokenBalance > 0
-                  ? `${ shortNumberFormat(formatNumberWithCommas(parseFloat(stackableTokenBalance).toFixed(0))).value + shortNumberFormat(formatNumberWithCommas(parseFloat(stackableTokenBalance).toFixed(0))).symbol} Mine X`
+                  ? `${ shortNumberFormat(((stackableTokenBalance))).value + shortNumberFormat(((stackableTokenBalance))).symbol} Mine X`
                   : "0 Mine X"}
               </h2>
             </div>
@@ -140,7 +132,7 @@ const  shortNumberFormat  =  (labelValue) =>
               </h3>
               <h2 className="text-white text-[24px] leading-[38.4px] font-normal">
               {totalReward > 0
-                  ? `${shortNumberFormat(formatNumberWithCommas(parseFloat(totalReward).toFixed(0))).value + shortNumberFormat(formatNumberWithCommas(parseFloat(totalReward).toFixed(0))).symbol} Mine X`
+                  ? `${shortNumberFormat((parseFloat(totalReward).toFixed(0))).value + shortNumberFormat((parseFloat(totalReward).toFixed(0))).symbol} Mine X`
                   : "0 Mine X"}
                 
               </h2>

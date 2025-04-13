@@ -234,9 +234,13 @@ const  shortNumberFormat  =  (labelValue) =>
     const [tokenBalance, setTokenBalance] = useState(0);
     const [allowance, setAllowance] = useState(0);
     const notifyErrorMsg = (msg) => toast.error(msg);
+    const [currentDateStamp, setCurrentDateStamp] = useState(new Date().getTime() / 1000);
     const notifySuccess = (msg) => toast.success(msg);
     const [stakeButtonText, setStakeButtonText] = useState("Stake Now");
     const [stakeButtonState, setStakeButtonState] = useState(false);
+
+    //setCurrentDateStamp(new Date().getTime())
+    console.log(currentDateStamp)
 
     // fetch all data from token and stake contract
   const {data: balanceTokenData} = useReadContract({
@@ -554,6 +558,7 @@ async function handleStakeToken(){
     }
 
       if(Array.isArray(stakeData)){
+
         myStakes = stakeData;
           let total = 0;
           for(let i = 0;i < stakeData.length; i++){
@@ -804,12 +809,13 @@ async function handleStakeToken(){
                                     : "bg-yellow-500/10 text-yellow-500"
                                 }`}
                               >
-                                {Number(item.startTime) >= Number(item.endTime)
+                                {currentDateStamp >= item.endTime
                                   ? "Unlocked"
                                   : "Locked"  }
                               </span>
                             </td>
                             <td className="text-white whitespace-nowrap text-[0.875rem] px-[30px] py-[20px]">
+                              {item.withdrawn === false?
                               <button
                               id={index.toString()}
                               disabled = {false}
@@ -819,15 +825,17 @@ async function handleStakeToken(){
                               : ()=> {}
                               }
                                 className={`px-2 py-2 text-[0.75rem] rounded-lg transition-all text-white ${
-                                  item.withdrawn == false
-                                    ? "bg-yellow-500 hover:bg-yellow-400 withdrawbtn"
-                                    : "bg-[#7B15F8] hover:bg-[#7b15f8b9] restakebtn"
+                                currentDateStamp >=  item.endTime
+                                    ? "bg-[#008000] hover:bg-[#7b15f8b9] restakebtn"
+                                    : "bg-yellow-500 hover:bg-yellow-400 withdrawbtn"
                                 }`}
                               >
                                 {item.withdrawn === false
                                   ? "Withdraw"
-                                  : "Withdrawn" }
+                                  : "Withdraw" }
                               </button>
+                              :
+                              <>Withdrawn</>}
                             </td>
                           </tr>
                         ))
