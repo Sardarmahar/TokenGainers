@@ -63,7 +63,7 @@ const Timeline = () => {
             </div>
             <div className="flex justify-start">
               <Image
-                src="/assets/ai/ai_powered_compute_grid_.webp"
+                src="/assets/our-goal.jpg"
                 alt="AI-Powered Compute Grid"
                 width={715}
                 height={453}
@@ -75,12 +75,16 @@ const Timeline = () => {
           <div className="relative grid grid-cols-2 gap-16 items-center">
             <TimelinePoint />
             <div className="flex justify-end">
-              <Image
-                src="/assets/ai/ai_yield_management_system_.webp"
-                alt="AI Yield Management System"
-                width={521}
-                height={539}
-              />
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/real_bussiness.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
             </div>
             <div className="flex justify-start">
               <TimelineCard
@@ -100,24 +104,34 @@ const Timeline = () => {
               />
             </div>
             <div className="flex justify-start">
-              <Image
-                src="/assets/ai/ai_optimized_energy_marketplace_.webp"
-                alt="AI-Optimized Energy Marketplace"
-                width={705}
-                height={499}
-              />
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/early-adopters.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+            
             </div>
           </div>
             {/* Fourth timeline item */}
             <div className="relative grid grid-cols-2 gap-16 items-center">
             <TimelinePoint />
             <div className="flex justify-start">
-              <Image
-                src="/assets/ai/ai_powered_compute_grid_.webp"
-                alt="AI-Powered Compute Grid"
-                width={715}
-                height={453}
-              />
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/features-video-2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
             </div>
             <div className="flex justify-end mr-1">
               <TimelineCard
@@ -139,7 +153,7 @@ const Timeline = () => {
             </div>
             <div className="flex justify-end">
               <Image
-                src="/assets/ai/ai_yield_management_system_.webp"
+                src="/assets/trust-value.jpg"
                 alt="AI Yield Management System"
                 width={521}
                 height={539}
@@ -161,7 +175,7 @@ const Timeline = () => {
           </div>
           <div className="flex justify-start">
             <Image
-              src="/assets/ai/ai_powered_compute_grid_.webp"
+              src="/assets/our-goal.jpg"
               alt="AI-Powered Compute Grid"
               width={715}
               height={453}
@@ -172,12 +186,16 @@ const Timeline = () => {
          {/* Second timeline item */}
          <div className="mt-10 flex flex-col-reverse gap-5 items-center">
             <div className="flex justify-end">
-              <Image
-                src="/assets/ai/ai_yield_management_system_.webp"
-                alt="AI Yield Management System"
-                width={521}
-                height={539}
-              />
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/real_bussiness.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
             </div>
             <div className="flex justify-start">
               <TimelineCard
@@ -196,12 +214,58 @@ const Timeline = () => {
               />
             </div>
             <div className="flex justify-start">
-              <Image
-                src="/assets/ai/ai_optimized_energy_marketplace_.webp"
-                alt="AI-Optimized Energy Marketplace"
-                width={705}
-                height={499}
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/early-adopters.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+            </div>
+          </div>
+          {/* Fourth timeline item */}
+            <div className="mt-10 flex flex-col gap-5 items-center">
+            <div className="flex justify-end">
+              <TimelineCard
+                title={t("aiUtility.timeline.fourth.title")}
+                description={t("aiUtility.timeline.fourth.description")}
               />
+            </div>
+            <div className="flex justify-start">
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/features-video-2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+            </div>
+          </div>
+
+          {/* Fifth timeline item */}
+          <div className="mt-10 flex flex-col gap-5 items-center">
+            <div className="flex justify-end">
+              <TimelineCard
+                title={t("aiUtility.timeline.fifth.title")}
+                description={t("aiUtility.timeline.fifth.description")}
+              />
+            </div>
+            <div className="flex justify-start">
+            <Image
+                src="/assets/trust-value.jpg"
+                alt="AI Yield Management System"
+                width={521}
+                height={539}
+              />
+
             </div>
           </div>
       </div>

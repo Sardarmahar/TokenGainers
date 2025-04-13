@@ -398,7 +398,7 @@ async function handleStakeToken(){
           const hash = await  writeContractAsync({ 
             abi: stakingAbi.abi,
             address: stakeAddress,
-            functionName: 'withdraw',
+            functionName: 'unstake',
             args:[index],
           })
     
@@ -799,14 +799,14 @@ async function handleStakeToken(){
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
                               <span
                                 className={`px-3 py-1 rounded-full ${
-                                  item.status === "Active"
+                                  Number(item.startTime) >= Number(item.endTime)
                                     ? "bg-green-500/10 text-green-500"
                                     : "bg-yellow-500/10 text-yellow-500"
                                 }`}
                               >
-                                {item.withdrawn === true
-                                  ? t("staking.stakingHistory.withdraw")
-                                  : t("staking.stakingHistory.active")}
+                                {Number(item.startTime) >= Number(item.endTime)
+                                  ? "Unlocked"
+                                  : "Locked"  }
                               </span>
                             </td>
                             <td className="text-white whitespace-nowrap text-[0.875rem] px-[30px] py-[20px]">
@@ -816,7 +816,7 @@ async function handleStakeToken(){
                               onClick={
                               item.withdrawn === false
                               ? ()=> handleWithdraw(index)
-                              : ()=> handleRestake(index, item.amount, (getLockDuration(Number(item.startTime), Number(item.endTime))).toString())
+                              : ()=> {}
                               }
                                 className={`px-2 py-2 text-[0.75rem] rounded-lg transition-all text-white ${
                                   item.withdrawn == false
@@ -825,8 +825,8 @@ async function handleStakeToken(){
                                 }`}
                               >
                                 {item.withdrawn === false
-                                  ? t("staking.stakingHistory.withdraw")
-                                  : t("staking.stakingHistory.reStake")}
+                                  ? "Withdraw"
+                                  : "Withdrawn" }
                               </button>
                             </td>
                           </tr>

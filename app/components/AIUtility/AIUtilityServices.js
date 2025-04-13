@@ -14,12 +14,16 @@ const AIUtilityServices = () => {
           </span>{" "}
           {t("aiUtility.services.subtitle")}
         </h2>
-        <Image
-          src="/assets/ai/ai-ulility-service.webp"
-          alt="ai-utility-services"
-          width={721}
-          height={583}
-        />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-fill rounded-[10px]"
+          >
+            <source src="/assets/vision-bg.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
       </div>
     </div>
   );

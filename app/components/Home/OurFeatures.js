@@ -74,7 +74,7 @@ const OurFeatures = () => {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover rounded-[10px]"
+                    className="w-full h-full object-fill rounded-[10px]"
                   >
                     <source src={feature.videoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
