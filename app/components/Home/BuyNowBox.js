@@ -455,6 +455,77 @@ const BuyNowBox = () => {
     // Update user balance after purchase
     await fetchBalance("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
   }
+
+  
+ async function addToMyWallet () {
+
+    const tokenAddress = '0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6';
+    const tokenSymbol = 'X';
+    const tokenDecimals = 18;
+    const tokenImage = 'https://tokengainers.com/_next/image?url=%2Fassets%2Ficons%2Fx.png&w=64&q=75';
+    
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20', // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: tokenDecimals, // The number of decimals in the token
+            image: tokenImage, // A string url of the token logo
+          },
+        },
+      });
+    
+      if (wasAdded) {
+        console.log('Thanks for your interest!');
+      } else {
+        console.log('Your loss!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+ 
+ 
+ };
+
+ async function addToMyWalletFIRA () {
+
+  const tokenAddress = '0xEf0851a60D7409328152E493Fe7A69009a85d415';
+  const tokenSymbol = 'FIRA';
+  const tokenDecimals = 18;
+  const tokenImage = 'https://tokengainers.com/_next/image?url=%2Fassets%2Ficons%2Ff.png&w=64&q=75';
+  
+  try {
+    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+    const wasAdded = await ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+        options: {
+          address: tokenAddress, // The address that the token is at.
+          symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+          decimals: tokenDecimals, // The number of decimals in the token
+          image: tokenImage, // A string url of the token logo
+        },
+      },
+    });
+  
+    if (wasAdded) {
+      console.log('Thanks for your interest!');
+    } else {
+      console.log('Your loss!');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+
+}
+
+  
   
   // buy / sell MINEX button functionality
   async function handleBuyFIRAToken() {
@@ -802,6 +873,7 @@ const BuyNowBox = () => {
                 placeholder="0.00"
                 className="w-full bg-transparent outline-none placeholder:text-white/80 text-white text-[14px] sm:text-base font-normal"
               />
+              
               <Image
                 src={buyCurrency.icon || "/placeholder.svg"}
                 alt={buyCurrency.name}
@@ -902,15 +974,15 @@ const BuyNowBox = () => {
             <Image src="/assets/icons/how-to-buy.svg" alt="How to buy" width={16} height={16} />
             <h3 className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">How to buy</h3>
           </Link>
-          <Link href="#" target="_blank" className="flex items-center gap-2 sm:gap-2.5">
+          <Link href="#" onClick={()=>{addToMyWallet() }} className="flex items-center gap-2 sm:gap-2.5">
             <Image
-              src="/assets/icons/my-wallet-wont-connect.svg"
+              src="/assets/icons/x.png"
               alt="My wallet won't connect!"
-              width={16}
-              height={16}
+              width={30}
+              height={30}
             />
-            <h3 className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">
-              My wallet won&apos;t connect!
+            <h3  className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">
+              Add To My Wallet
             </h3>
           </Link>
         </div>
@@ -1104,15 +1176,15 @@ const BuyNowBox = () => {
             <Image src="/assets/icons/how-to-buy.svg" alt="How to buy" width={16} height={16} />
             <h3 className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">How to buy</h3>
           </Link>
-          <Link href="#" target="_blank" className="flex items-center gap-2 sm:gap-2.5">
+          <Link href="#" onClick={()=>{addToMyWalletFIRA() }} className="flex items-center gap-2 sm:gap-2.5">
             <Image
-              src="/assets/icons/my-wallet-wont-connect.svg"
+              src="/assets/icons/f.png"
               alt="My wallet won't connect!"
-              width={16}
-              height={16}
+              width={30}
+              height={30}
             />
-            <h3 className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">
-              My wallet won&apos;t connect!
+            <h3  className="text-white/90 text-[13px] sm:text-[14px] leading-[16.8px] font-normal">
+              Add To My Wallet
             </h3>
           </Link>
         </div>
