@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import styles from "../../styling/StakingButton.module.css"
+import { Copy, DollarSign, Sun } from 'lucide-react'
 import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import { createPortal } from "react-dom"
@@ -44,6 +45,15 @@ const BuyNowBox = () => {
   const [sellCurrency, setSellCurrency] = useState(currenciesByChain.TG[0])
   const [buyCurrency, setBuyCurrency] = useState(currenciesByChain.USDT[0])
   const [tokenAddress, setTokenAddress] = useState("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6")
+
+  const [referralLink, setReferralLink] = useState("https://tokengainers.com/en?referral")
+      const [referralStats] = useState(
+          {
+              referrals: 0,
+              bonus: "0.00"
+          }
+      );
+
 
   // states for managing api data in pre-sale box from backend api (ajax.php)
   const [currentPrice, setCurrentPrice] = useState(0)
@@ -112,25 +122,56 @@ const BuyNowBox = () => {
     })
 
     
+    // use abi
+    const { data: getReferralsInfo } = useReadContract({
+        abi: tokenAbi.abi,
+        address: tokenAddress,
+        functionName: 'getReferrals',
+        args:[address],
+      })
+    
+      const { data: getTotalReferralEarnInfo } = useReadContract({
+        abi: tokenAbi.abi,
+        address: tokenAddress,
+        functionName: 'getTotalReferralEarnings',
+        args:[address],
+      })
+      
   const switchTab = async (state) => {
     setActiveTab(state);
+   
+    
     if(buyCurrency.name == "USDT"){
       if(state){
+      setTokenAddress("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
+      await fetchBalance("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
        setBuyCurrency(currenciesByChain.TG[0])
        setSellCurrency(currenciesByChain.USDT[0])
        setBuyButtonText("SELL NOW");
       }else{
-        setBuyCurrency(currenciesByChain.FIRA[0])
-        setSellCurrency(currenciesByChain.USDT[0])
-        setBuyButtonText("SELL NOW");
+        console.log(buyCurrency.name);
+        console.log(state);
+
+        setTokenAddress("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+        await fetchBalance("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+        setBuyCurrency(currenciesByChain.USDT[0])
+        setSellCurrency(currenciesByChain.FIRA[0])
+        setBuyButtonText("BUY NOW");
       }
     }else{
 
       if(state){
+        setTokenAddress("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
+        await fetchBalance("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
+
+
       setBuyCurrency(currenciesByChain.USDT[0])
       setSellCurrency(currenciesByChain.TG[0])
       setBuyButtonText("BUY NOW");
       }else{
+        setTokenAddress("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+        await fetchBalance("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+
         setBuyCurrency(currenciesByChain.USDT[0])
         setSellCurrency(currenciesByChain.FIRA[0])
         setBuyButtonText("BUY NOW");
@@ -169,7 +210,7 @@ const BuyNowBox = () => {
   // use useref for buy amount input field 
   const inputRef = useRef(null);
   const updateBuyAmount = async () => {
-    
+    setTokenAddress("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
     if (!inputRef.current) return;
     
     const amount = Number($("#inputbuyamount").val())
@@ -209,9 +250,52 @@ const BuyNowBox = () => {
     }
   }
 
+  // use useref for buy amount input field 
+  const inputRefFIRA = useRef(null);
+  const updateFIRABuyAmount = async () => {
+    setTokenAddress("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+    if (!inputRefFIRA.current) return;
+    
+    const amount = Number($("#inputbuyamountfira").val())
+    //console.log($("#inputbuyamount").val())
+    console.log(amount)    
+    if (amount <= 0) return; 
+
+    
+    // Connect to the public RPC provider
+    const provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org/');
+    // Create a contract instance with the provider
+    const contract = new ethers.Contract(tokenAddress, tokenAbi.abi, provider);
+    try {
+      
+      let tokens = '1000000000000000000'; // Default for USDT
+
+      setBuyAmount(amount.toString());
+      if (buyCurrency.name === 'USDT') {
+        
+        console.log(web3.utils.toWei(amount.toString(), 'ether'))
+        const usdtToToken = await contract.usdtToToken(web3.utils.toWei(amount.toString(), 'ether'));
+        tokens = usdtToToken.toString(); // Convert BigInt to string
+      }
+      //  Why converting mwei?? USDT (Tether) has 6 decimal places (while ETH has 18 decimal places)
+      if (buyCurrency.name === "FIRA") {
+        console.log(amount)
+        const tokenToUsdt = await contract.tokenToUsdt(web3.utils.toWei(amount.toString(), 'ether'));
+        
+        tokens = tokenToUsdt.toString();
+        
+      }
+      
+        setExpectedTokens(web3.utils.fromWei(tokens.toString(), 'ether'));  // Setting the expected tokens
+   
+    } catch (error) {
+      console.log("unable to load resultEth", error)
+    }
+  }
+
 
   // fetch web3 data 
-  const fetchBalance = async () => {
+  const fetchBalance = async (tokenAddress) => {
     // Connect to the public RPC provider
     const provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org/');
     // Create a contract instance with the provider
@@ -220,6 +304,7 @@ const BuyNowBox = () => {
           try {
             let tokenBal = await contract.balanceOf(address);
             const balance = web3.utils.fromWei(tokenBal.toString(), 'ether')
+            console.log(balance)
             setTokenBalance(Number(balance));
             setStackableTokenBalance(Number(balance));
 
@@ -230,7 +315,7 @@ const BuyNowBox = () => {
       }
   }
 
-  // buy button functionality
+  // buy / sell MINEX button functionality
   async function handleBuyToken() {
 
     const amount = Number(inputRef.current.value);
@@ -340,54 +425,6 @@ const BuyNowBox = () => {
           return;
         }
   
-        if(parseFloat(allowanceCoin.toString()) < parseFloat(buyAmount.toString())) {
-          try {
-            setBuyButtonText('Approving...');
-            setBuyButtonState(true);
-      
-            const hash = await  writeContractAsync({ 
-              abi: tokenAbi.abi,
-              address: tokenAddress,
-              functionName: 'approve',
-              args:[tokenAddress,parseUnits(String(buyAmount), 18)],
-            })
-      
-            const txn = await publicClient.waitForTransactionReceipt( { hash } );
-                
-            if(txn.status == "success"){
-  
-              notifySuccess('Approve TXN Successful'); 
-              setBuyButtonText('Selling...');
-  
-              try {
-                const hash = await writeContractAsync({
-                  abi: tokenAbi.abi,
-                  address: tokenAddress,
-                  functionName: 'sell',
-                  args:[parseUnits(String(buyAmount), 18)],
-                });
-            
-                const txn = await getClient().waitForTransactionReceipt({ hash });
-                if (txn.status === "success") {
-                  notifySuccess(`${buyAmount} Coins Sold Successfully`);
-                }
-        
-              } catch (error) {
-                setBuyButtonText("SELL NOW");
-                setBuyButtonState(false);
-                console.error("Transaction failed", error);
-                notifyErrorMsg(error?.shortMessage || "An unknown error occurred.");
-              } finally {
-                setBuyButtonText("SELL NOW");
-                setBuyButtonState(false);
-              }
-            }
-          }catch(error){
-            console.log(error);
-            setBuyButtonState(false);
-            setBuyButtonText('SELL NOW');
-          }
-        }else{
           try {
 
             setBuyButtonText("Selling...");
@@ -412,12 +449,153 @@ const BuyNowBox = () => {
             setBuyButtonText("SELL NOW");
             setBuyButtonState(false);
           }
-        }
+        
   
     }
     // Update user balance after purchase
-    await fetchBalance();
+    await fetchBalance("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6");
   }
+  
+  // buy / sell MINEX button functionality
+  async function handleBuyFIRAToken() {
+
+      const amount = Number(inputRef.current.value);
+  
+      if (parseFloat(buyAmount) <= 0) {
+        setBuyButtonText('BUY NOW');
+        notifyErrorMsg('Please enter amount');
+        return;
+      }
+      const publicClient = getClient();
+      const adr = window.location.href;
+      const q = url.parse(adr, true);
+      const qdata = q.query;
+      const referral = qdata.referral || "0x0000000000000000000000000000000000000000";
+     // console.log(referral)
+    
+      if (buyCurrency.name == 'USDT') {
+        // If buy amount is more than available balance of user
+        console.log(buyAmount)
+        console.log(usdtBalance.toString())
+        if (parseFloat(buyAmount) > parseFloat(usdtBalance.toString())) {
+          notifyErrorMsg('Insufficient USDT Balance');
+          return;
+        }
+  
+        if(parseFloat(allowanceUSDTData.toString()) < parseFloat(buyAmount.toString())) {
+          try {
+            setBuyButtonText('Approving...');
+            setBuyButtonState(true);
+      
+            const hash = await  writeContractAsync({ 
+              abi: tokenAbi.abi,
+              address: usdtAddress,
+              functionName: 'approve',
+              args:[tokenAddress,parseUnits(String(buyAmount), 18)],
+            })
+      
+            const txn = await publicClient.waitForTransactionReceipt( { hash } );
+                
+            if(txn.status == "success"){
+  
+              notifySuccess('Approve TXN Successful'); 
+              setBuyButtonText('Buying...');
+  
+              try {
+                const hash = await writeContractAsync({
+                  abi: tokenAbi.abi,
+                  address: tokenAddress,
+                  functionName: 'buy',
+                  args:[parseUnits(String(buyAmount), 18),referral],
+                });
+            
+                const txn = await getClient().waitForTransactionReceipt({ hash });
+                if (txn.status === "success") {
+                  notifySuccess(`${expectedTokens} Coins Bought Successfully`);
+                }
+        
+              } catch (error) {
+                setBuyButtonState(false);
+                setBuyButtonText("BUY NOW");
+                console.error("Transaction failed", error);
+                notifyErrorMsg(error?.shortMessage || "An unknown error occurred.");
+              } finally {
+                setBuyButtonText("BUY NOW");
+                setBuyButtonState(false);
+              }
+            }
+          }catch(error){
+            console.log(error);
+            setBuyButtonText('BUY NOW');
+          }
+        }else{
+          try {
+  
+            setBuyButtonText('Buying...');
+            setBuyButtonState(true);
+            const hash = await writeContractAsync({
+              abi: tokenAbi.abi,
+              address: tokenAddress,
+              functionName: 'buy',
+              args:[parseUnits(String(buyAmount), 18), referral],
+            });
+        
+            const txn = await getClient().waitForTransactionReceipt({ hash });
+            if (txn.status === "success") {
+              notifySuccess(`${expectedTokens} Coins Bought Successfully`);
+            }
+    
+          } catch (error) {
+            setBuyButtonText("BUY NOW");
+            setBuyButtonState(false);
+            console.error("Transaction failed", error);
+            notifyErrorMsg(error?.shortMessage || "An unknown error occurred.");
+          } finally {
+            setBuyButtonText("BUY NOW");
+            setBuyButtonState(false);
+          }
+        }
+  
+       
+      } else{
+          // If sell amount is more than available balance of user
+          console.log(buyAmount)
+          console.log(usdtBalance.toString())
+          if (parseFloat(buyAmount) > parseFloat(tokenBalance.toString())) {
+            notifyErrorMsg('Insufficient Coin Balance');
+            return;
+          }
+    
+            try {
+  
+              setBuyButtonText("Selling...");
+              setBuyButtonState(true);
+              
+              const hash = await writeContractAsync({
+                abi: tokenAbi.abi,
+                address: tokenAddress,
+                functionName: 'sell',
+                args:[parseUnits(String(buyAmount), 18)],
+              });
+          
+              const txn = await getClient().waitForTransactionReceipt({ hash });
+              if (txn.status === "success") {
+                notifySuccess(`${buyAmount} Coins Sold Successfully`);
+              }
+      
+            } catch (error) {
+              console.error("Transaction failed", error);
+              notifyErrorMsg(error?.shortMessage || "An unknown error occurred.");
+            } finally {
+              setBuyButtonText("SELL NOW");
+              setBuyButtonState(false);
+            }
+          
+    
+      }
+      // Update user balance after purchase
+      await fetchBalance("0xEf0851a60D7409328152E493Fe7A69009a85d415");
+    }
   
   // use use-effect for isConnected and more things for prevent it from running multiple times(infinite loop)
   useEffect(() => {
@@ -437,12 +615,30 @@ const BuyNowBox = () => {
       }
       
 
+      if(typeof window !== 'undefined' && isConnected){
+        const protocol = window.location.protocol;
+        const hostname = window.location.hostname;
+        let url = protocol+hostname;
+    
+        if(hostname==='localhost') url = protocol+hostname+':3000'
+        setReferralLink(url+'/en?referral='+address)
+      }
+      
+        if(getReferralsInfo){
+
+            referralStats.referrals = getReferralsInfo.length;
+        }
+
+        if(getTotalReferralEarnInfo){
+            referralStats.bonus = web3.utils.fromWei(getTotalReferralEarnInfo.toString(), "ether");
+        }
+        
       if (balanceTokenData) {
         const stackableBalance = web3.utils.fromWei(balanceTokenData.toString(), "ether");
         setStackableTokenBalance(stackableBalance);
       }
     }
-  }, [isConnected, address, balanceUSDTData, allowanceUSDTData, balanceTokenData, allowanceCoinData],)
+  }, [isConnected, address, balanceUSDTData, allowanceUSDTData, getReferralsInfo, getTotalReferralEarnInfo, referralStats ,balanceTokenData, allowanceCoinData],)
 
     // Add a new state for the modal
     const [showReferModal, setShowReferModal] = useState(false)
@@ -456,7 +652,61 @@ const BuyNowBox = () => {
       return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowReferModal(false)}></div>
-          <ReferEarnPopup />
+           <div className="relative z-10 bg-[#1A0A2E] border border-[#8616DF] rounded-lg p-5 w-[90%] max-w-md">
+                      <div className="flex justify-between items-center mb-4">
+                          <h2 className="text-white text-xl font-bold">Refer & Earn</h2>
+                      </div>
+          
+                      <div className="space-y-4">
+                          <p className="text-white/90 text-sm">Share your referral link and earn 5% of your friends&lsquo; purchases!</p>
+          
+                          <div className="bg-[#250142] rounded-md p-3 flex items-center justify-between">
+                              <span className="text-white/90 text-sm truncate">{referralLink}</span>
+                              <button
+                                  className="ml-2 text-[#C176FF] hover:text-[#A052FF] transition-colors"
+                                  onClick={() => {
+                                      navigator.clipboard.writeText(referralLink)
+                                      alert("Referral link copied to clipboard!")
+                                  }}
+                              >
+                                  <Copy size={20} />
+                              </button>
+                          </div>
+          
+                          <div className="bg-[#7314C040] p-3 rounded-md">
+                              <div className="flex items-center gap-3">
+                                  <div className="bg-[#A052FF] rounded-full p-2">
+                                      <Sun size={20} color="white" />
+                                  </div>
+                                  <div>
+                                      <h3 className="text-white text-sm font-medium">Total Referrals</h3>
+                                      <p className="text-[#C176FF] text-sm">{referralStats.referrals}</p>
+                                  </div>
+                              </div>
+                          </div>
+          
+                          <div className="bg-[#7314C040] p-3 rounded-md">
+                              <div className="flex items-center gap-3">
+                                  <div className="bg-[#A052FF] rounded-full p-2">
+                                      <DollarSign size={20} color="white" />
+                                  </div>
+                                  <div>
+                                      <h3 className="text-white text-sm font-medium">Total Earnings</h3>
+                                      <p className="text-[#C176FF] text-sm">{referralStats.bonus} {activeTab? "Mine X": "FIRA"}</p>
+                                  </div>
+                              </div>
+                          </div>
+          
+                          <button
+                              className="hidden w-full py-3 rounded-lg font-medium text-white"
+                              style={{
+                                  background: "radial-gradient(42.46% 123.69% at 57.02% 58.9%, #A761FF 0%, #490A84 100%)",
+                              }}
+                          >
+                              My Referrals
+                          </button>
+                      </div>
+                  </div>
         </div>,
         document.body,
       )
@@ -609,7 +859,7 @@ const BuyNowBox = () => {
           isConnected ? (
             <button
             disabled={buyButtonState}
-              className={`${styles.stakingButtonBuyNow} ${isHovered ? styles.hovered : ""}`}
+              className={`${styles.stakingButtonBuyNow+' mt-5 '} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={handleBuyToken}
@@ -621,7 +871,7 @@ const BuyNowBox = () => {
             </button>
           ) : (
             <button
-              className={`${styles.stakingButtonBuyNow} ${isHovered ? styles.hovered : ""}`}
+              className={`${styles.stakingButtonBuyNow+' mt-5 '} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={() => open(isConnected ? { view: "Account" } : undefined)}
@@ -746,9 +996,9 @@ const BuyNowBox = () => {
             <div className="w-full h-[39px] sm:h-[50px] rounded-md sm:rounded-lg border border-[#8616DF] flex items-center justify-between gap-3 pl-3 sm:pl-4 pr-[3.5px] sm:pr-[5px]">
               <input
                 type="text"
-                id="inputbuyamount"
-                ref={inputRef}
-                onChange={updateBuyAmount}
+                id="inputbuyamountfira"
+                ref={inputRefFIRA}
+                onChange={updateFIRABuyAmount}
                 defaultValue={buyAmount}
                 placeholder="0.00"
                 className="w-full bg-transparent outline-none placeholder:text-white/80 text-white text-[14px] sm:text-base font-normal"
@@ -809,7 +1059,9 @@ const BuyNowBox = () => {
         {
           isConnected ? (
             <button
-              className={`${styles.stakingButtonBuyNow} ${isHovered ? styles.hovered : ""}`}
+            disabled={buyButtonState}
+            onClick={handleBuyFIRAToken}
+              className={`${styles.stakingButtonBuyNow +' mt-5 '} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               
@@ -821,7 +1073,7 @@ const BuyNowBox = () => {
             </button>
           ) : (
             <button
-              className={`${styles.stakingButtonBuyNow} ${isHovered ? styles.hovered : ""}`}
+              className={`${styles.stakingButtonBuyNow+' mt-5 '} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={() => open(isConnected ? { view: "Account" } : undefined)}
