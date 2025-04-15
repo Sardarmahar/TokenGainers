@@ -1,88 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BuyNowBox from "./BuyNowBox";
 import styles from "../../styling/StakingButton.module.css";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import $ from "jquery";
 
 const Hero = () => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
 
   
-  const fetchInfo = async () => {
+  const COUNTDOWN_TARGET = new Date("2025-09-13").getTime();
 
-    const second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
+  const getTimeLeft = () => {
+    const totalTimeLeft = COUNTDOWN_TARGET - new Date();
+    const days = Math.floor(totalTimeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((totalTimeLeft / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((totalTimeLeft / (1000 * 60)) % 60);
+    const seconds = Math.floor((totalTimeLeft / 1000) % 60);
+    return { days, hours, minutes, seconds };
+  };
 
-const countDown =  new Date("2025-05-25").getTime(),
-  x = setInterval(function() {    
+  const [timeLeft, setTimeLeft] = useState(() => getTimeLeft());
 
-    const now = new Date().getTime(),
-          distance = countDown - now;
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setTimeLeft(getTimeLeft());
+		}, 1000);
 
-           //Zeros
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000); 
+		return () => {
+			clearInterval(timer);
+		};
+	}, []);
 
-       days = (days.toLocaleString(undefined,{minimumIntegerDigits: 2}));  
-       hours = (hours.toLocaleString(undefined,{minimumIntegerDigits: 2}));  
-       minutes = (minutes.toLocaleString(undefined,{minimumIntegerDigits: 2}));
-       seconds = (seconds.toLocaleString(undefined,{minimumIntegerDigits: 2}));
-       if(document.getElementById("days")){
-        document.getElementById("days").innerText = days;
-        document.getElementById("hours").innerText = hours;                          
-        document.getElementById("minutes").innerText = minutes;
-        document.getElementById("seconds").innerText = seconds;
-      }
-       //do something later when date is reached
-       if (distance < 0) {
- 
-         //document.getElementById("countdown").style.display = "none";
-         document.getElementById("days").innerText = '00';
-         document.getElementById("hours").innerText = '00';                          
-         document.getElementById("minutes").innerText = '00';
-         document.getElementById("seconds").innerText = '00';
-         clearInterval(x);
-       }
-    //seconds
-  }, 0)
-
- }
-// fetchInfo();
 
   return (
     <div className="flex items-center lg:items-start justify-between lg:flex-row flex-col gap-[52px] lg:gap-5">
       <div className="lg:max-w-[609px] text-white">
         <div className="mb-[30px] w-fit px-[14px] h-[42px] bg-[#170326] rounded-[50px] border border-[#FFFFFF26] flex items-center gap-2 justify-center animate-pulse-shadow">
-          <div className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[10px] leading-[26px] tracking-[-0.01em] font-bold">
+          <div className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[15px] leading-[26px] tracking-[-0.01em] font-bold">
             {t("home.hero.new")}
           </div>
           <h2 className="text-[#FFF] text-[16px] leading-[26px] font-normal tracking-[-0.01em]">
-            FIRA Launch On Exchange
+            FIRA Launch On Binance
           </h2>
         </div>
         <div className="mb-[30px] w-fit px-[14px] h-[42px] bg-[#170326] rounded-[50px] border border-[#FFFFFF26] flex items-center gap-2 justify-center animate-pulse-shadow">
           
-          <div id="days" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[10px] leading-[26px] tracking-[-0.01em] font-bold">
-            00
+          <div id="days" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[15px] leading-[26px] tracking-[-0.01em] font-bold">
+            {timeLeft.days}
           </div>
           :
-          <div id="hours" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[10px] leading-[26px] tracking-[-0.01em] font-bold">
-            00
+          <div id="hours" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[15px] leading-[26px] tracking-[-0.01em] font-bold">
+            {timeLeft.hours}
           </div>
           :
-          <div id="minutes" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[10px] leading-[26px] tracking-[-0.01em] font-bold">
-            00
+          <div id="minutes" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[15px] leading-[26px] tracking-[-0.01em] font-bold">
+            {timeLeft.minutes}
           </div>
           :
-          <div id="seconds" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[10px] leading-[26px] tracking-[-0.01em] font-bold">
-            00
+          <div id="seconds" className="bg-[#ffff00] px-[5px] w-fit h-[18px] rounded-[40px] flex items-center justify-center inter text-black text-[15px] leading-[26px] tracking-[-0.01em] font-bold">
+            {timeLeft.seconds}
           </div>
         </div>
         

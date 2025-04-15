@@ -239,9 +239,6 @@ const  shortNumberFormat  =  (labelValue) =>
     const [stakeButtonText, setStakeButtonText] = useState("Stake Now");
     const [stakeButtonState, setStakeButtonState] = useState(false);
 
-    //setCurrentDateStamp(new Date().getTime())
-    console.log(currentDateStamp)
-
     // fetch all data from token and stake contract
   const {data: balanceTokenData} = useReadContract({
       abi: tokenAbi.abi,
@@ -264,7 +261,6 @@ const  shortNumberFormat  =  (labelValue) =>
     functionName: 'getUserStakes',
     args:[address],
   })
-
 
   // Fetch 1 Day Reward Rate
   const { data: rewardRate3MData } = useReadContract({

@@ -43,6 +43,7 @@ const BuyNowBox = () => {
   
   const [sellCurrency, setSellCurrency] = useState(currenciesByChain.TG[0])
   const [buyCurrency, setBuyCurrency] = useState(currenciesByChain.USDT[0])
+  const [tokenAddress, setTokenAddress] = useState("0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6")
 
   // states for managing api data in pre-sale box from backend api (ajax.php)
   const [currentPrice, setCurrentPrice] = useState(0)
@@ -75,7 +76,6 @@ const BuyNowBox = () => {
   const { writeContractAsync } = useWriteContract();
 
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955";
-  const tokenAddress = "0xa0696ffC4B64534d9A8a63aDaF8a1537f5C0c0c6";
 
 
   // show user who connected all usdt in acc
