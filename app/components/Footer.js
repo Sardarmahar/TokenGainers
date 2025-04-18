@@ -102,14 +102,19 @@ const Footer = () => {
   // Social Links
   const socialLinks = [
     {
-      name: 'Twitter',
-      href: 'https://www.x.com/',
-      icon: '/assets/icons/twitter.svg'
+      name: 'Telegram',
+      href: 'https://t.me/tokengainers',
+      icon: '/assets/icons/telegram.svg'
     },
     {
-      name: 'Telegram',
-      href: 'https://t.me/',
-      icon: '/assets/icons/telegram.svg'
+      name: 'Discrod',
+      href: 'https://discord.gg/fGEtK42E',
+      icon: '/assets/icons/discord.svg'
+    },
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/tokengainers?igsh=MWdmMW5tbmN1amh0cw==',
+      icon: '/assets/icons/instagram.svg'
     },
     {
       name: 'MailUs',
