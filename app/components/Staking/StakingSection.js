@@ -57,15 +57,17 @@ const  shortNumberFormat  =  (labelValue) =>
 
 
   const monthDiff = (rate) => {
-    var months = '1 Days';
-    if(rate == 50){
-       months = '7 Days'
-    }else if(rate == 2100){
+    
+  var months = '1 Days';
+    if(rate == 50) {
+      months = '7 Days'
+    }else if(rate == 210){
       months = '30 Days'
     }else if(rate == 1000){
       months = '90 Days'
     }
-    return months;
+  return months;
+ 
  };
 
  const getDateString = (timestamp) => {
@@ -785,7 +787,7 @@ async function handleStakeToken(){
                               {shortNumberFormat(ethers.formatUnits(item.amount.toString(),'ether')).value + shortNumberFormat(ethers.formatUnits(item.amount.toString(),'ether')).symbol} Mine X
                             </td>
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
-                              {monthDiff(item.rewardRate)}
+                              {monthDiff(Number(item.rewardRate))}
                               
                             </td>
                             <td className="text-white text-[0.75rem] px-[30px] py-[20px]">
