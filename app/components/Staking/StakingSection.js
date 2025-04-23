@@ -117,7 +117,7 @@ const  shortNumberFormat  =  (labelValue) =>
   const handleMaxClick = () => {
     const maxValue = tokenBalance;
     setNumericStakeAmount(maxValue);
-    setStakeAmount(formatNumberWithCommas(maxValue.toFixed(2)));
+    setStakeAmount(formatNumberWithCommas(maxValue.toFixed(0)));
   };
 
   useEffect(() => {
@@ -319,7 +319,7 @@ async function handleStakeToken(){
       return;
     }
 
-    //if(allowance < staketokenamount.toString()) {
+    if(allowance < staketokenamount.toString()) {
       try{
         setStakeButtonText("Approving...");
         setStakeButtonState(true);
@@ -360,7 +360,7 @@ async function handleStakeToken(){
       setStakeButtonText("Stake Now")
       setStakeButtonState(false)
     }
-  /*}
+  }
   else{
       try{
         setStakeButtonText("Staking...")
@@ -387,7 +387,7 @@ async function handleStakeToken(){
             notifyErrorMsg("An unknown error occurred.");
         };
       }
-    }*/
+    }
 
   }
 
