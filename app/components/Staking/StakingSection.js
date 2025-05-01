@@ -117,7 +117,7 @@ const  shortNumberFormat  =  (labelValue) =>
   const handleMaxClick = () => {
     const maxValue = tokenBalance;
     setNumericStakeAmount(maxValue);
-    setStakeAmount(formatNumberWithCommas(maxValue.toFixed(0)));
+    setStakeAmount(formatNumberWithCommas(Math.trunc(maxValue)));
   };
 
   useEffect(() => {
